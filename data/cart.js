@@ -47,3 +47,17 @@ export function deleteFromCart(productId){
     cart = newCart;
     saveToStorage();
 }
+
+export function calculateCartQuantity(){
+    let cartQuantity = 0;
+    cart.forEach(item => {
+        cartQuantity += item.quantity;
+    });
+    return cartQuantity;
+}
+
+export function updateQuantity(productId, newQuantity){
+    let cartItem = cart.find(item => item.productId === productId);
+    cartItem.quantity = newQuantity;
+    saveToStorage();
+}
