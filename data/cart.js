@@ -31,7 +31,8 @@ export function addToCart(productId){
     else{
         cart.push({
             productId: productId,
-            quantity: selectedQuantity
+            quantity: selectedQuantity,
+            deliveryOptionId: '1'
         });
     }
     saveToStorage();
