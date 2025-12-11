@@ -1,3 +1,3 @@
 export function formatPrice(amountInCents){
-    return `$${(amountInCents/100).toFixed(2)}`; 
+    return `$${(Math.round(amountInCents)/100).toFixed(2)}`; 
 }
