@@ -1,6 +1,7 @@
-import { cart } from "../data/cart.js";
+import { cart, deleteFromCart } from "../data/cart.js";
 import {products} from '../data/products.js';
 import { formatPrice } from "./utils/money.js";
+// import { updateCartQuantity } from "./amazon.js";
 
 let cartSummaryHTML = '';
 
@@ -8,7 +9,7 @@ cart.forEach((cartItem) => {
     const productId = cartItem.productId;
     const product = products.find(product => product.id === productId);
     cartSummaryHTML += `
-<div class="cart-item-container">
+<div class="cart-item-container js-cart-item-container-${product.id}">
     <div class="delivery-date">
         Delivery date: Tuesday, June 21
     </div>
@@ -28,10 +29,10 @@ cart.forEach((cartItem) => {
             <span>
                 Quantity: <span class="quantity-label">${cartItem.quantity}</span>
             </span>
-            <span class="update-quantity-link link-primary">
+            <span class="update-quantity-link link-primary js-update-quantity-link" data-product-id="${product.id}">
                 Update
             </span>
-            <span class="delete-quantity-link link-primary">
+            <span class="delete-quantity-link link-primary js-delete-quantity-link" data-product-id="${product.id}">
                 Delete
             </span>
         </div>
@@ -87,4 +88,26 @@ cart.forEach((cartItem) => {
 });
 
 document.querySelector('.js-order-summary')
-     .innerHTML = cartSummaryHTML;
+    .innerHTML = cartSummaryHTML;
+
+document.querySelectorAll('.js-delete-quantity-link')
+    .forEach((link) => {
+        link.addEventListener('click', () => {
+            const productId = link.dataset.productId;
+            deleteFromCart(productId);
+            const container = document.querySelector(`.js-cart-item-container-${productId}`);
+            container.remove();
+            // updateCartQuantity();
+        });
+    });
+
+// document.querySelectorAll('.js-update-quantity-link')
+//     .forEach((link) => {
+//         link.addEventListener('click', () => {
+//             const productId = link.dataset.productId;
+
+//     });
+// });
+
+// document.querySelector('.js-return-to-home-link')
+//     .innerHTML = updateCartQuantity() + ' items';
